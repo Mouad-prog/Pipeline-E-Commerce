@@ -1,0 +1,58 @@
+# ── Build & sbt artifacts ──────────────────────────────────
+target/
+project/target/
+project/project/
+*.class
+*.jar
+sbt-launch.jar
+build-local.sbt
+
+# ── IDE & editor ───────────────────────────────────────────
+.metals/
+.bsp/
+.vscode/
+.idea/
+*.iml
+
+# ── Generated output data ──────────────────────────────────
+output/
+
+# ── LaTeX compilation artifacts ───────────────────────────
+*.aux
+*.log
+*.out
+*.pdf
+*.tex
+report/
+
+# ── Personal documentation (NOT for repo) ─────────────────
+DEMO_SCALA_PROF.md
+PIPELINE_EXPLAINED.md
+CheckLog.md
+TaskManager.md
+PRESENTATION_STRATEGY.md
+
+# ── Presentation (NOT for repo) ───────────────────────────
+presentation.html
+presentation/
+
+# ── Personal assets ────────────────────────────────────────
+inpt_logo.png
+
+# ── Python helper / setup scripts (local dev only) ────────
+docker_commands.py
+docker_setup.py
+run_commands.py
+setup_hadoop.py
+
+# ── Log files ─────────────────────────────────────────────
+*.log
+healthcheck.bat
+orchestrator_run.log
+spark_run.log
+ps_compile1.log
+ps_compile2.log
+
+# ── OS files ──────────────────────────────────────────────
+.DS_Store
+Thumbs.db

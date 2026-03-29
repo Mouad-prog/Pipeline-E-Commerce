@@ -1,0 +1,92 @@
+version: "3.9"
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.6.0
+    container_name: ecom-zookeeper
+    ports:
+      - "2182:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "2181"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.0
+    container_name: ecom-kafka
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    ports:
+      - "9093:9092"
+      - "29093:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: ecom-zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://ecom-kafka:29092,PLAINTEXT_HOST://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 9092 || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+
+  kafka-init:
+    image: confluentinc/cp-kafka:7.6.0
+    container_name: ecom-kafka-init
+    depends_on:
+      kafka:
+        condition: service_healthy
+    entrypoint: ["/bin/bash", "-c"]
+    command: |
+      "
+      echo 'Creating Kafka topics...'
+      kafka-topics --bootstrap-server ecom-kafka:29092 --create --if-not-exists --topic transactions --partitions 3 --replication-factor 1
+      kafka-topics --bootstrap-server ecom-kafka:29092 --create --if-not-exists --topic clients --partitions 3 --replication-factor 1
+      kafka-topics --bootstrap-server ecom-kafka:29092 --create --if-not-exists --topic products --partitions 3 --replication-factor 1
+      echo 'Topics created:'
+      kafka-topics --bootstrap-server ecom-kafka:29092 --list
+      echo 'Done.'
+      "
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: ecom-kafka-ui
+    depends_on:
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8081:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: ecom-kafka:29092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: ecom-zookeeper:2181
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: ecom-postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: pipeline
+      POSTGRES_PASSWORD: pipeline123
+      POSTGRES_DB: ecommerce
+    volumes:
+      - ./init-scripts:/docker-entrypoint-initdb.d
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pipeline -d ecommerce"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
