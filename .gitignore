@@ -4,7 +4,7 @@ project/target/
 project/project/
 *.class
 *.jar
-sbt-launch.jar
+!sbt-launch.jar
 build-local.sbt
 
 # ── IDE & editor ───────────────────────────────────────────
@@ -56,3 +56,22 @@ ps_compile2.log
 # ── OS files ──────────────────────────────────────────────
 .DS_Store
 Thumbs.db
+
+# ── Node.js (slides/presentation tools) ──────────────────
+node_modules/
+package-lock.json
+package.json
+
+# ── JavaScript helper scripts (slides) ───────────────────
+*.js
+
+# ── Screenshots ─────────────────────────────────────────
+*.png
+!inpt_logo.png
+
+# ── Draft folder (old versions) ─────────────────────────
+Draft/
+
+project/.bloop/
+project/metals.sbt
+.bloop/
