@@ -1,11 +1,9 @@
-version: "3.9"
-
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.6.0
     container_name: ecom-zookeeper
     ports:
-      - "2182:2181"
+      - "2181:2181"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -22,13 +20,13 @@ services:
       zookeeper:
         condition: service_healthy
     ports:
-      - "9093:9092"
-      - "29093:29092"
+      - "9092:9092"
+      - "29092:29092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: ecom-zookeeper:2181
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://ecom-kafka:29092,PLAINTEXT_HOST://localhost:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://ecom-kafka:29092,PLAINTEXT_HOST://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -64,7 +62,7 @@ services:
       kafka:
         condition: service_healthy
     ports:
-      - "8081:8080"
+      - "8080:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: ecom-kafka:29092
@@ -74,7 +72,7 @@ services:
     image: postgres:16-alpine
     container_name: ecom-postgres
     ports:
-      - "5433:5432"
+      - "5432:5432"
     environment:
       POSTGRES_USER: pipeline
       POSTGRES_PASSWORD: pipeline123

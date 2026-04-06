@@ -33,6 +33,11 @@ libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.4.3"
 )
 
+// Exclude duplicate SLF4J bindings (Kafka brings log4j-slf4j2-impl)
+excludeDependencies ++= Seq(
+  ExclusionRule("org.apache.logging.log4j", "log4j-slf4j2-impl")
+)
+
 // For running locally with spark embedded
 run / fork := true
 run / javaOptions ++= Seq(

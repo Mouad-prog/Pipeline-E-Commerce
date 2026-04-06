@@ -8,7 +8,7 @@ import com.typesafe.scalalogging.LazyLogging
 /** Validates, deduplicates, and normalizes raw e-commerce data from Kafka. */
 object DataCleaner extends LazyLogging {
 
-  // --- Schemas ---
+  // --- Schemas
 
   val transactionSchema: StructType = StructType(Seq(
     StructField("transaction_id", StringType, nullable = false),
