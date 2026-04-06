@@ -6,9 +6,9 @@ import com.typesafe.scalalogging.LazyLogging
 
 /** Computes KPIs from cleaned e-commerce data. */
 object DataTransformer extends LazyLogging {
-
+ 
   /**
-   * Revenue by product category.
+   * Revenue by product category
    * Requires: cleaned transactions joined with products.
    */
   def revenueByCategory(transactions: DataFrame, products: DataFrame): DataFrame = {

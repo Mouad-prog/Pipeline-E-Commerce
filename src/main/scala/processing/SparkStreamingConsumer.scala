@@ -8,8 +8,10 @@ import org.apache.spark.sql.streaming.Trigger
 
 import java.io.File
 
+
+
 /**
- * Spark Structured Streaming consumer that reads from Kafka,
+ * Spark Structured Streaming consumer that reads from Kafka
  * cleans data, computes KPIs, and writes Parquet output.
  *
  * For Block 3, this performs a batch read of existing Kafka data.
