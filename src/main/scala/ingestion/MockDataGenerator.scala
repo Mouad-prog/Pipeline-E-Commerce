@@ -7,7 +7,7 @@ import java.time.Instant
 import java.util.UUID
 import scala.util.Random
 
-/** Realistic mock data generator for e-commerce transactions, clients, and products. */
+/** Realistic mock data generator for e-commercce transactions, clients, and products. */
 object MockDataGenerator {
 
   private val random = new Random()

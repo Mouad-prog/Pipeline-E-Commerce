@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong
 import scala.util.{Try, Using}
 
 /**
- * Produces mock e-commerce data to Kafka topics.
+ * Produces mock e-commerce data to Kafka topics
  * Generates clients, products, and transactions, then publishes them.
  */
 object KafkaProducer extends App with LazyLogging {
