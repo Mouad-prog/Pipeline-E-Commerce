@@ -8,9 +8,9 @@ val circeVersion = "0.14.6"
 
 libraryDependencies ++= Seq(
   // Apache Spark
-  "org.apache.spark" %% "spark-core"           % sparkVersion % "provided",
-  "org.apache.spark" %% "spark-sql"            % sparkVersion % "provided",
-  "org.apache.spark" %% "spark-streaming"      % sparkVersion % "provided",
+  "org.apache.spark" %% "spark-core"           % sparkVersion ,
+  "org.apache.spark" %% "spark-sql"            % sparkVersion ,
+  "org.apache.spark" %% "spark-streaming"      % sparkVersion ,
   "org.apache.spark" %% "spark-sql-kafka-0-10" % sparkVersion,
 
   // Apache Kafka
@@ -68,3 +68,6 @@ assembly / assemblyMergeStrategy := {
 }
 
 assembly / assemblyJarName := "ecommerce-pipeline.jar"
+assembly / mainClass := Some("orchestration.PipelineOrchestrator")
+
+assembly / fullClasspath := (Compile / fullClasspath).value

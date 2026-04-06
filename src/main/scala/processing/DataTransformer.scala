@@ -4,7 +4,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.functions._
 import com.typesafe.scalalogging.LazyLogging
 
-/** Computes KPIs from cleaned e-commerce data. */
+/** Computes KPIs from cleaned e-commerce data */
 object DataTransformer extends LazyLogging {
 
   /**

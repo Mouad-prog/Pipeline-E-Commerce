@@ -7,7 +7,7 @@ import java.util.Properties
 object PostgresWriter {
 
   /**
-   * Writes a DataFrame to a PostgreSQL table.
+   * Writes a DataFrame to a PostgreSQL table
    * By default uses SaveMode.Append.
    * If SaveMode.Overwrite is used, Spark will drop and recreate the table.
    * For the demo, since we want to reuse the exact schema from init.sql,
